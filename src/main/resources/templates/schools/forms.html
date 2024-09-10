@@ -1,0 +1,57 @@
+<!-- component -->
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:insert="fragments/fragment::head"></head>
+
+<body>
+<div class="flex flex-col h-screen bg-gray-100">
+
+    <!--    <div id="loading_verify" class='absolute w-full flex items-center justify-center min-h-screen -mt-10'>-->
+    <!--        <div style="border-top-color:transparent" class="w-8 h-8 border-4 border-blue-200 rounded-full animate-spin"></div>-->
+    <!--        <p class="ml-2">Vérification de Smtp ...</p>-->
+    <!--    </div>-->
+
+    <!-- Contenido principal -->
+    <div class="flex flex justify-center flex-wrap">
+
+        <div class="flex justify-center items-center p-4 w-full md:w-1/2 mt-2">
+
+            <div id="hidden_school" class="ml-20 w-4/5 bg-white p-4 shadow rounded-lg mt-5">
+                <div class="bg-white p-4 rounded-md mt-4 w-full">
+                    <div class="flex justify-center text-center text-right mt-4">
+                        <h2 class="flex text-gray-700 text-center text-lg font-semibold pb-4">Vérification</h2>
+                    </div>
+                    <div class="my-1"></div>
+                    <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
+                    <form th:action="@{/schools}" th:object="${school}" method="post" enctype="multipart/form-data">
+                        <div class="flex flex-col justify-center w-full px-2">
+
+                            <div class="flex w-full">
+                                <input th:field="*{name}" class="w-full py-2.5 text-center rounded-lg border border-amber-950"
+                                       id="name" placeholder="Nom de l'ecole">
+                            </div>
+
+                            <div class="flex w-full mt-2">
+                                <input type="file" th:field="*{file}" class="w-full py-2.5 text-center rounded-lg border border-amber-950"
+                                       id="url" placeholder="Url-logo">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="flex justify-center">
+                            <button
+                                    class="bg-green-500 hover:bg-cyan-600 text-white font-semibold py-2 px-12 rounded">
+                                Créer
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

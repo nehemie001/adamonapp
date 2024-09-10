@@ -1,0 +1,47 @@
+
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--    <link rel="stylesheet" th:href="@{/main.css}" />-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+
+<div class="flex flex-col justify-between" id="sideNav" th:fragment ="sidebar">
+
+    <div class="">
+        <a th:href="@{/}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-home mr-2"></i>Tableau de board
+        </a>
+        <a th:href="@{/students}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-users mr-2"></i>Eleves
+        </a>
+        <a th:href="@{/teachers}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-users mr-2"></i>Professeurs
+        </a>
+        <a th:href="@{/users}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-users mr-2"></i>Utilisateur
+        </a>
+        <a th:href="@{/reports}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-users mr-2"></i>Rapport
+        </a>
+        <a th:href="@{/settings/params}" class="block text-gray-500 py-2.5 px-4 my-4 rounded transition duration-200 hover:bg-gradient-to-r ">
+            <i class="fas fa-users mr-2"></i>Paramètre
+        </a>
+    </div>
+
+    <!-- Ítem de Cerrar Sesión -->
+    <div class="absolute bottom-0">
+        <a th:href="@{/logout}" class="block text-red-500 py-2.5 px-4 my-2 rounded transition duration-200 hover:text-red-700 mt-auto cursor-pointer">
+            <i class="fas fa-sign-out-alt mr-2"></i>Deconnexion
+        </a>
+    </div>
+
+</div>
+</div>
+
+<th:block th:fragments="script">
+    <script th:src="@{app.js}"></script>
+</th:block>

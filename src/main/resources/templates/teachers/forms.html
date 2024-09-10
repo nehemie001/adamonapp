@@ -1,0 +1,108 @@
+<!-- component -->
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+<head th:insert="fragments/fragment::head"></head>
+
+<body>
+<div class="flex flex-col h-screen bg-gray-100">
+
+    <div class="bg-white text-white shadow w-full p-2 flex items-center justify-between">
+        <div class="flex items-center">
+            <div class="flex items-center">
+                <img src="https://www.emprenderconactitud.com/img/POC%20WCS%20(1).png" alt="Logo" class="w-28 h-18 mr-2">
+            </div>
+            <div class="md:hidden flex items-center">
+                <button id="menuBtn">
+                    <i class="fas fa-bars text-gray-500 text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Ícono de Notificación y Perfil -->
+        <div class="space-x-5">
+            <button>
+                <i class="fas fa-bell text-gray-500 text-lg"></i>
+            </button>
+            <!-- Botón de Perfil -->
+            <button>
+                <i class="fas fa-user text-gray-500 text-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="flex-1 flex flex-wrap">
+        <!-- Sidebar -->
+        <div class="p-2 bg-white w-full md:w-60 flex flex-col md:flex hidden" th:insert="fragments/fragment::sidebar"></div>
+        <!--        End Sidebar -->
+
+        <!-- Table teacher -->
+        <div class="flex-1 justify-center items-center p-4 w-full md:w-1/2 mt-8">
+            <div class="mt-8 ml-20 w-4/5 bg-white p-4 shadow rounded-lg">
+                <div class="bg-white p-4 rounded-md mt-4">
+                    <div class="flex justify-between text-right mt-4">
+                        <h2 th:text="${teacher.id == null }? 'Ajouter un professeur': 'Modifier professeur'" class="flex text-gray-500 text-lg font-semibold pb-4"></h2>
+                    </div>
+                    <div class="my-1"></div>
+                    <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
+                    <form th:action="@{/teachers}" th:object="${teacher}" method="post">
+                        <div class="flex flex-row justify-center w-full space-x-5 px-16">
+                            <!--                           pour la modifier-->
+                            <input th:field="*{id}" hidden type="text">
+
+                            <div class="flex w-full">
+                                <input th:field="*{firstName}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" id="first_name" placeholder="Nom">
+                            </div>
+                            <br/><br/>
+                            <div class="flex w-full">
+                                <input th:field="*{lastName}" type="text" class="w-full py-2.5 rounded-lg border border-slate-500" placeholder="Prenom">
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div class="flex flex-row justify-center w-full space-x-5 px-16">
+                            <div class="flex w-full">
+                                <input th:field="*{numbers}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" placeholder="Telephone">
+                            </div>
+<!--                            <div class="flex w-full">-->
+<!--                                <input th:field="*{birthday}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" placeholder="Date de naissance">-->
+<!--                            </div>-->
+                        </div>
+                        <br>
+
+                        <div class="flex flex-row justify-center w-full space-x-5 px-16">
+                            <div class="flex w-full">
+                                <input th:field="*{urlPicture}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" placeholder="Image">
+                            </div>
+                            <div class="flex w-full">
+                                <input th:field="*{gender}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" placeholder="Genre">
+                            </div>
+                        </div>
+                        <div class="flex flex-row justify-center w-full space-x-5 px-16">
+                            <div class="flex w-full">
+                                <input th:field="*{available}" type="checkbox" class="w-full py-2.5 rounded-lg border border-amber-950" th:value="true" >
+                                <input th:field="*{available}" type="checkbox" class="w-full py-2.5 rounded-lg border border-amber-950" th:value="false">
+                            </div>
+                            <div class="flex w-full">
+                                <input th:field="*{specialty}" type="text" class="w-full py-2.5 rounded-lg border border-amber-950" placeholder="Specialité">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="flex justify-center">
+                            <button th:text="${teacher.id == null }? 'Enregistrer': 'Modifier'" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded"></button>
+                            <button style="margin-left: 2rem !important;" class="bg-red-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded">Annuler</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

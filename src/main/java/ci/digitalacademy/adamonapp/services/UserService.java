@@ -10,6 +10,8 @@ public interface UserService {
 
     UserDTO update(UserDTO userDTO);
 
+    UserDTO update(UserDTO userDTO, Long id);
+
     Optional<UserDTO> findOne(Long id);
 
     List<UserDTO> findAll();
@@ -18,6 +20,9 @@ public interface UserService {
 
     void toggleUserStatus(Long id, boolean isActive);
 
-    UserDTO findById(Long id);
+    Optional<UserDTO>findById(Long id);
 
+    Optional<UserDTO> findBySlug(String slug);
+
+    UserDTO partialUpdate(UserDTO userDTO, Long id);
 }

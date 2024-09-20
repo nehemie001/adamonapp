@@ -36,7 +36,7 @@ public class DomainUserDetailService implements UserDetailsService {
         final List<GrantedAuthority> grantedAuthorities = user.get()
                 .getRoles()
                 .stream()
-                .map(Role::getName)
+                .map(Role::getRole)
 //                .map(Role::getRole)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

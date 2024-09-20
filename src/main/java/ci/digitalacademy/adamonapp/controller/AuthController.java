@@ -24,8 +24,9 @@ public class AuthController {
     @GetMapping
     public String showLogin(Model model) {
         List<SchoolDTO> schools = schoolService.findAll();
-//        Optional<SchoolDTO> schoolDTO = schools.stream().findFirst();
-        model.addAttribute("school", new SchoolDTO());
+        Optional<SchoolDTO> schoolDTO = schools.stream().findFirst();
+
+        model.addAttribute("school", schoolDTO.orElse(null));
         return "auth/login";
     }
 }

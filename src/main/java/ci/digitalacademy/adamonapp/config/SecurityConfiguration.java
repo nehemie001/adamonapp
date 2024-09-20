@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,6 +23,8 @@ public class SecurityConfiguration {
                 .csrf(CsrfConfigurer::disable)  // Désactiver la protection CSRF pour cette configuration
                 .authorizeHttpRequests((authorize) -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()  // Autoriser les types de requêtes FORWARD et ERROR
+                        .requestMatchers("/swagger-ui/**").permitAll()  // Permettre l'accès a swagger
+                        .requestMatchers("/v3/api-docs/**").permitAll()  // Permettre l'accès aux ressources icon
                         .requestMatchers("/css/").permitAll()  // Permettre l'accès aux ressources css
                         .requestMatchers("/icon/").permitAll()  // Permettre l'accès aux ressources icon
                         .requestMatchers("/js/").permitAll()  // Permettre l'accès aux ressources js
@@ -30,9 +34,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/public/").permitAll()  // Permettre l'accès aux ressources publiques (non authentifiées)
                         .requestMatchers("/schools").permitAll()
                         .requestMatchers("/settings").permitAll()
-                        .requestMatchers("/api/students/**").permitAll()
-                        .requestMatchers("/api/teachers/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/").permitAll()
+//                        .requestMatchers("/dashboard").permitAll()
+                        .requestMatchers("/api/authenticate").permitAll()
                         .anyRequest().authenticated()  // Toutes les autres demandes nécessitent une authentification
                 )
                 .formLogin((login) -> login
@@ -46,7 +51,12 @@ public class SecurityConfiguration {
                         .invalidateHttpSession(true)  // Invalider la session après déconnexion
                         .deleteCookies("JSESSIONID")  // Supprimer le cookie de session après déconnexion
                         .permitAll()  // Permettre à chacun de se déconnecter
-                );
+                )
+
+//                Crée une session d'état pour les utilisateurs se connectant via le formulaire
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt); //Utiliser OAuth2 pour les API sécurisées via JWT
 
         http.addFilterBefore(new LoginPageRedirectFilter(), UsernamePasswordAuthenticationFilter.class);
 

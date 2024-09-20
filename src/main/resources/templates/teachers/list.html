@@ -79,6 +79,7 @@
                             />
                             <div class="flex w-full">
                                 <select th:value="${gender}" id="classe" name="classe" class="w-full py-2.5 rounded-lg border border-amber-950">
+                                    <option value="">--Sélectionner le genre--</option>
                                     <option value="Homme" th:if="${gender == 'Homme'} ? 'selected':''">Homme</option>
                                     <option value="Femme" th:if="${gender == 'Femme'} ? 'selected':''">Femme</option>
                                     <option value="Autre" th:if="${gender == 'Autre'} ? 'selected':''">Autre</option>

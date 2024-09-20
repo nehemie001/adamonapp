@@ -1,11 +1,10 @@
 package ci.digitalacademy.adamonapp.services.dto;
 
-import ci.digitalacademy.adamonapp.models.Role;
-import ci.digitalacademy.adamonapp.models.School;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -18,11 +17,13 @@ public class UserDTO {
 
     private String password;
 
-    private Date creation_date;
+    private Instant creationDate;
 
     private boolean isActive;
 
-    private List<Role> role;
+    private String slug;
 
-    private School school;
+    private List<RoleDTO> role;
+
+    private SchoolDTO school;
 }

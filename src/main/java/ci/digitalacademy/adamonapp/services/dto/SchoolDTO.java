@@ -15,5 +15,5 @@ public class SchoolDTO {
 
     private String urlLogo;
 
-    private Setting setting;
+    private SettingDTO setting;
 }

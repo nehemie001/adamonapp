@@ -31,16 +31,15 @@ public abstract class Person implements Serializable {
     private String numbers;
 
     @Column(name = "url_picture")
-    private String urlPicture;
+    private String picture;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_adress")
+    @OneToOne
+//    @JoinColumn(name = "id_adress")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user")
+    @OneToOne
     private User user;
 }

@@ -5,12 +5,16 @@ import ci.digitalacademy.adamonapp.repository.RoleRepository;
 import ci.digitalacademy.adamonapp.services.RoleService;
 import ci.digitalacademy.adamonapp.services.dto.RoleDTO;
 import ci.digitalacademy.adamonapp.services.mapper.RoleMapper;
+import ci.digitalacademy.adamonapp.services.mapping.RoleMapping;
+import ci.digitalacademy.adamonapp.services.mapping.UserMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +34,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO update(RoleDTO roleDTO) {
-        return null;
+        return findOne(roleDTO.getId()).map(existingUser -> {
+            existingUser.setRole(roleDTO.getRole());
+            existingUser.setSlug(roleDTO.getSlug());
+            return save(existingUser);
+        }).orElseThrow(()-> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public RoleDTO update(RoleDTO roleDTO, Long id) {
+        roleDTO.setId(id);
+        return update(roleDTO);
     }
 
     @Override
@@ -58,5 +72,31 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public List<RoleDTO> findByRole(String roleUser) {
+        return roleRepository.findByRole(roleUser).stream().map(roleMapper::toDto).toList();
+    }
+
+    @Override
+    public Optional<RoleDTO> findById(Long id) {
+        log.debug("Request to get one role : {}", id);
+        return roleRepository.findById(id).map(roleMapper::toDto);
+    }
+
+    @Override
+    public Optional<RoleDTO> findBySlug(String slug) {
+        log.debug("Request to get role by slug:{}", slug);
+        return roleRepository.findBySlug(slug).map(roleMapper::toDto);
+    }
+
+    @Override
+    public RoleDTO partialUpdate(RoleDTO roleDTO, Long id) {
+        log.debug("Request to update a role specific", roleDTO, id);
+        return roleRepository.findById(id).map(role -> {
+            RoleMapping.partialUpdate(role, roleDTO);
+            return role;
+        }).map(roleRepository::save).map(roleMapper::toDto).orElse(null);
     }
 }

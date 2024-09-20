@@ -1,18 +1,19 @@
 package ci.digitalacademy.adamonapp.controller;
 
-import ci.digitalacademy.adamonapp.models.Setting;
-import ci.digitalacademy.adamonapp.models.Teacher;
+
+import ci.digitalacademy.adamonapp.models.enumeration.Gender;
 import ci.digitalacademy.adamonapp.services.TeacherService;
-import ci.digitalacademy.adamonapp.services.dto.SettingDTO;
 import ci.digitalacademy.adamonapp.services.dto.TeacherDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -45,13 +46,28 @@ public class TeacherController {
     }
 
     @GetMapping("/search")
-    public String searchTeachers(@RequestParam String query  , @RequestParam String gender, Model model)
+    public String searchTeachers(
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "gender", required = false) String gender)
     {
-        List<TeacherDTO> teachers = teacherService.findByfirstNameOrlastNameAndGender(query, gender);
-        model.addAttribute("teachers", teachers);
-        model.addAttribute("query", query);
-        model.addAttribute("gender", gender);
+//        List<TeacherDTO> teachers = teacherService.findByfirstNameOrlastNameAndGender(query, gender);
+//        model.addAttribute("teachers", teachers);
+//        model.addAttribute("query", query);
+//        model.addAttribute("gender", gender);
+//
+//        return "teachers/list";
 
-        return "teachers/list";
+        Gender genderEnum = null;
+
+        if (gender != null && !gender.isEmpty()) {
+            try {
+                genderEnum = Gender.valueOf(gender.toUpperCase()); // Convertir la chaîne en enum
+            } catch (IllegalArgumentException e) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid gender value");
+            }
+        }
+        return "redirect:/teachers?firstName=" + firstName + "&gender=" + (genderEnum!= null? genderEnum.name() : null);
     }
+
+
 }

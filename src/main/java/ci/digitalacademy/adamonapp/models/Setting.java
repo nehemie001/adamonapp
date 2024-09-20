@@ -1,10 +1,7 @@
 package ci.digitalacademy.adamonapp.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,6 +9,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "setting")
 public class Setting {
 
@@ -30,6 +28,9 @@ public class Setting {
 
     @Column(unique = true, nullable = false , name = "smtp_password")
     private String smtpPassword;
+
+    @Column(name = "slug", unique = true)
+    private String slug;
 
     @OneToOne(mappedBy = "setting")
     private School school;

@@ -31,43 +31,34 @@ public class AdamonappApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		RoleDTO role1 = new RoleDTO();
-		role1.setName("admin");
-		RoleDTO role2 = new RoleDTO();
-		role2.setName("staff");
-		RoleDTO role3 = new RoleDTO();
-		role3.setName("other");
+		RoleDTO admin = new RoleDTO();
+		admin.setRole("ADMIN");
+		RoleDTO user = new RoleDTO();
+		user.setRole("USER");
 
-		List<RoleDTO> roleUsersDTO = Arrays.asList(role1, role2, role3);
+		List<RoleDTO> roleUsersDTO = Arrays.asList(admin, user);
 		roleUsersDTO = roleService.initRoles(roleUsersDTO);
 
 
 		String password = passwordEncoder.encode("admin");
-		UserDTO other = new UserDTO();
-		other.setPseudo("admin");
-		other.setPassword(password);
-		other.setActive(true);
-		other.setCreation_date(Date.from(Instant.now()));
+		UserDTO user1 = new UserDTO();
+		user1.setPseudo("admin");
+		user1.setRole(roleUsersDTO);
+		user1.setPassword(password);
+		user1.setActive(true);
+		user1.setCreationDate(Instant.now());
 
-		userService.save(other);
-
-		String password2 = passwordEncoder.encode("admin2");
-		UserDTO staff = new UserDTO();
-		staff.setPseudo("admin2");
-		staff.setPassword(password2);
-		staff.setActive(true);
-		staff.setCreation_date(Date.from(Instant.now()));
-
-		userService.save(staff);
+		userService.save(user1);
 
 		String password1 = passwordEncoder.encode("user");
-		UserDTO admin = new UserDTO();
-		admin.setPseudo("user");
-		admin.setPassword(password1);
-		admin.setActive(false);
-		admin.setCreation_date(Date.from(Instant.now()));
+		UserDTO user2 = new UserDTO();
+		user2.setPseudo("user");
+//		user2.setRole(roleUsersDTO);
+		user2.setPassword(password1);
+		user2.setActive(false);
+		user2.setCreationDate(Instant.now());
 
-		userService.save(admin);
+		userService.save(user2);
 
 
 //		UserDTO userDTO = new UserDTO();

@@ -19,11 +19,11 @@ public class PersonDTO {
 
     private String numbers;
 
-    private String urlPicture;
+    private String picture;
 
     private Gender gender;
 
-    private Address address;
+    private AddressDTO address;
 
-    private User user;
+    private UserDTO user;
 }

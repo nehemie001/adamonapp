@@ -3,8 +3,10 @@ package ci.digitalacademy.adamonapp.services.impl;
 import ci.digitalacademy.adamonapp.models.Setting;
 import ci.digitalacademy.adamonapp.repository.SettingRepository;
 import ci.digitalacademy.adamonapp.services.SettingService;
+import ci.digitalacademy.adamonapp.services.dto.AbsenceDTO;
 import ci.digitalacademy.adamonapp.services.dto.SettingDTO;
 import ci.digitalacademy.adamonapp.services.mapper.SettingMapper;
+import ci.digitalacademy.adamonapp.services.mapping.SettingMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,13 +32,28 @@ public class SettingServiceImpl implements SettingService {
     }
 
     @Override
-    public SettingDTO update(SettingDTO setting) {
-        return null;
+    public SettingDTO update(SettingDTO settingDTO) {
+        return findOne(settingDTO.getId()).map(existingUser -> {
+            existingUser.setSmtpUsername(settingDTO.getSmtpUsername());
+            existingUser.setSmtpPort(settingDTO.getSmtpPort());
+            return save(existingUser);
+        }).orElseThrow(()-> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public SettingDTO update(SettingDTO settingDTO, Long id) {
+        settingDTO.setId(id);
+        return update(settingDTO);
     }
 
     @Override
     public Optional<SettingDTO> findOne(Long id) {
-        return Optional.empty();
+        return settingRepository.findById(id).map(settingMapper::toDto);
+    }
+
+    @Override
+    public Optional<SettingDTO> findById(Long id) {
+        return settingRepository.findById(id).map(settingMapper::toDto);
     }
 
     @Override
@@ -46,6 +63,21 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public void delete(Long id) {
+        log.debug("Request to delete setting: {}", id);
+        settingRepository.deleteById(id);
+    }
 
+    @Override
+    public Optional<SettingDTO> findBySlug(String slug) {
+        log.debug("Request to get setting by slug:{}", slug);
+        return settingRepository.findBySlug(slug).map(settingMapper::toDto);
+    }
+
+    @Override
+    public SettingDTO partialUpdate(SettingDTO settingDTO, Long id) {
+        return settingRepository.findById(id).map(setting -> {
+            SettingMapping.partialUpdate(setting, settingDTO);
+            return setting;
+        }).map(settingRepository::save).map(settingMapper::toDto).orElse(null);
     }
 }

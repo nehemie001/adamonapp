@@ -11,9 +11,15 @@ public interface SchoolService {
 
     SchoolDTO update(SchoolDTO schoolDTO);
 
+    SchoolDTO update(SchoolDTO schoolDTO, Long id);
+
     Optional<SchoolDTO> findOne(Long id);
 
     List<SchoolDTO> findAll();
 
     void delete(Long id);
+
+    Optional<SchoolDTO> findById(Long id);
+
+    SchoolDTO partialUpdate(SchoolDTO schoolDTO, Long id);
 }

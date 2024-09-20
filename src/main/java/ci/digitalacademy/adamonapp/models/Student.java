@@ -1,5 +1,6 @@
 package ci.digitalacademy.adamonapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,12 @@ public class Student extends Person {
     @Column(name = "phone_number_father")
     private String phoneNumberFather;
 
+    @Column(name = "slug", unique = true)
+    private String slug;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Set<StudentCard> studentCards;
 
-    @OneToMany(  mappedBy = "student")
-    @Column(nullable = true)
-    private List<Absence> absence;
+    @OneToMany(mappedBy = "student")
+    private Set<Absence> absence;
 }

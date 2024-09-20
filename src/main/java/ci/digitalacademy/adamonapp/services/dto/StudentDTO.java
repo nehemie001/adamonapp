@@ -19,7 +19,8 @@ public class StudentDTO extends PersonDTO {
 
     private String phoneNumberFather;
 
+    private String slug;
+
     private Set<StudentCard> studentCards;
 
-    private List<Absence> absence;
 }

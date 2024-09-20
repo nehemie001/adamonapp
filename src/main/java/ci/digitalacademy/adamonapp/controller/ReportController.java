@@ -85,7 +85,7 @@ public class ReportController {
             List<UserDTO> userDTOS = userService.findAll();
             document.add(new Paragraph("Listes des utilisateurs"));
             for (UserDTO user : userDTOS) {
-                document.add(new Paragraph(user.getPseudo() + " - " + user.getCreation_date()));
+                document.add(new Paragraph(user.getPseudo() + " - " + user.getCreationDate()));
             }
         }
 

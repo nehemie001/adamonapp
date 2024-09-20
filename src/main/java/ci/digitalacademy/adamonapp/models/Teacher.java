@@ -1,5 +1,6 @@
 package ci.digitalacademy.adamonapp.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -18,4 +19,7 @@ public class Teacher extends Person {
     private Boolean available;
 
     private String specialty;
+
+    @Column(name = "slug", unique = true)
+    private String slug;
 }

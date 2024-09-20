@@ -10,4 +10,6 @@ public class TeacherDTO extends PersonDTO{
     private Boolean available;
 
     private String specialty;
+
+    private String slug;
 }

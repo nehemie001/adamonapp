@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -70,20 +71,20 @@ public class UserController {
         log.info("Toggling user status for user with ID: {}", id);
 
         // Récupère l'utilisateur actuel
-        UserDTO user = userService.findById(id);
+        Optional<UserDTO> user = userService.findOne(id);
 
         // Vérifie son état actuel et bascule le statut
         boolean newStatus;
-        if (user.isActive()) {
-            log.info("User is currently active, deactivating user.");
-            newStatus = false; // Désactiver si actuellement actif
-        } else {
-            log.info("User is currently inactive, activating user.");
-            newStatus = true; // Activer si actuellement inactif
-        }
-
-        // Met à jour le statut de l'utilisateur
-        userService.toggleUserStatus(id, newStatus);
+////        if (user.isActive()) {
+////            log.info("User is currently active, deactivating user.");
+////            newStatus = false;
+////        } else {
+////            log.info("User is currently inactive, activating user.");
+////            newStatus = true;
+////        }
+//
+//        // Met à jour le statut de l'utilisateur
+//        userService.toggleUserStatus(id, newStatus);
 
         userService.toggleUserStatus(id, isActive);
         return "redirect:/users"; // redirige vers la liste des utilisateurs

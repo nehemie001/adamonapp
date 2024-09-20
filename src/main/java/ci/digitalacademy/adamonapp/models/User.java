@@ -24,20 +24,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "pseudo" , unique = true , nullable = false)
+    @Column(name = "pseudo")
     private String pseudo;
 
-    @Column(name = "password" , nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "creation_date" , nullable = false)
+    @Column(name = "creation_date")
 //    @DateTimeFormat(pattern = "MM-dd-yyyy")
-    private Date creation_date;
+    private Instant creationDate;
+
+    @Column(name = "slug", unique = true)
+    private String slug;
 
     private boolean isActive;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private List<Role> roles;
 
     @ManyToOne
     @JoinColumn(name = "id_school")

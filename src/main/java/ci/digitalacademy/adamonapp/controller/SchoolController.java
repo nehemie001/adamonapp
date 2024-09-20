@@ -47,10 +47,12 @@ public class SchoolController {
     public String saveSchool(@ModelAttribute RegistrationSchoolDTO registrationSchoolDTO) throws IOException {
         log.debug("Request to save teacher : {}", registrationSchoolDTO);
         fileStorageService.upload(registrationSchoolDTO.getFile());
-
         SettingDTO settingDTO = settingService.findAll().get(0);
         SchoolDTO schoolDTO = new SchoolDTO();
-
+        schoolDTO.setId(settingDTO.getId());
+        schoolDTO.setName(registrationSchoolDTO.getName());
+        schoolDTO.setUrlLogo(registrationSchoolDTO.getFile().getOriginalFilename());
+        schoolService.save(schoolDTO);
         return "redirect:/login";
     }
 }

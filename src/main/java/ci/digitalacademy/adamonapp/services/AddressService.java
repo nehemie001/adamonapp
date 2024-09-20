@@ -7,13 +7,21 @@ import java.util.Optional;
 
 public interface AddressService {
 
-    AddressDTO save(AddressDTO adresse);
+    AddressDTO save(AddressDTO addressDTO);
 
-    AddressDTO update(AddressDTO adresse);
+    AddressDTO update(AddressDTO addressDTO);
+
+    AddressDTO update(AddressDTO addressDTO, Long id);
 
     Optional<AddressDTO> findOne(Long id);
 
     List<AddressDTO> findAll();
 
     void delete(Long id);
+
+    AddressDTO partialUpdate(AddressDTO addressDTO, Long id);
+
+    Optional<AddressDTO> findBySlug(String slug);
+
+    Optional<AddressDTO> findById(Long id);
 }
